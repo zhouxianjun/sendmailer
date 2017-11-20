@@ -84,7 +84,7 @@ export default {
                 if (!valid) {
                     let mailer = this.queryEmail(newVal);
                     this.vo.type = mailer ? mailer.id : 'empty';
-                    ipcRenderer.send('test', {
+                    ipcRenderer.send('verifyMailer', {
                         host: 'smtp.aliyun.com',
                         port: 25,
                         secure: false, // upgrade later with STARTTLS

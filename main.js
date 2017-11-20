@@ -8,12 +8,8 @@ const path = require('path');
 //保持一个全局的窗口对象，可以不显示，如果没有这个对象，窗口点击关闭的时候，js对象会被gc干掉
 let mainWindow;
 const ipc = electron.ipcMain;
+const Handler = require('./handler');
 const Utils = require('./utils');
-const SequelizeDao = require('sequelize-dao');
-(async () => {
-    const DB = require('./DB');
-    await SequelizeDao.loadEntity(DB.sequelize, './entity');
-})();
 
 function createWindow(){
     mainWindow = new BrowserWindow({
@@ -27,10 +23,7 @@ function createWindow(){
         mainWindow = null
     });
 
-    ipc.on('test', async option => {
-        let res = await Utils.verifyMailer(option);
-        console.log(res);
-    });
+    ipc.on('verifyMailer', Utils.decorate(Handler.verifyMailer));
 }
 
 //生命周期的函数定义
